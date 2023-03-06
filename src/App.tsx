@@ -5,6 +5,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { NewNote } from "./NewNote";
 import { useLocalStorage } from "./useLocalStorage";
 import { v4 as uuidV4 } from "uuid";
+import { NoteList } from "./NoteList";
+import { NotesLayout } from "./NotesLayout";
+import { Note } from "./Note";
 
 export type Note = {
   id: string;
@@ -60,7 +63,10 @@ function App() {
   return (
     <Container className="my-4">
       <Routes>
-        <Route path="/" element={<h2>Home</h2>} />
+        <Route
+          path="/"
+          element={<NoteList availableTags={tags} notes={notesWithTags} />}
+        />
         <Route
           path="/new"
           element={
@@ -71,8 +77,8 @@ function App() {
             />
           }
         />
-        <Route path="/:id">
-          <Route index element={<h2>Show</h2>} />
+        <Route path="/:id" element={<NotesLayout notes={notesWithTags} />}>
+          <Route index element={<Note />} />
           <Route path="edit" element={<h2>Edit</h2>} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
